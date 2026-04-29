@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>양지웅 & 박수민 — Wedding Invitation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Playfair+Display:ital,wght@1,700&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: #d8d8d8;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .inv {
+      background: #e8e8e8;
+      font-family: 'DM Sans', sans-serif;
+      color: #1a1a1a;
+      width: 100%;
+      max-width: 480px;
+      padding-bottom: 48px;
+    }
+
+    .pf {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 700;
+      color: #1a3a8f;
+    }
+
+    .inv-top {
+      padding: 40px 32px 28px;
+      text-align: center;
+    }
+
+    .inv-eyebrow { font-size: 26px; line-height: 1.25; margin-bottom: 28px; }
+
+    .inv-photo-main {
+      background: #c8c8c8;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .inv-photo-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .inv-photo-icon { opacity: 0.4; }
+    .inv-photo-lbl { font-size: 9px; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
+
+    .inv-names-block { padding: 24px 32px 0; text-align: center; }
+    .inv-names-kr { font-family: 'Nanum Myeongjo', serif; font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+    .inv-names-en { font-size: 9px; letter-spacing: 0.18em; color: #999; text-transform: uppercase; }
+    .inv-date-sub { font-size: 10px; letter-spacing: 0.15em; color: #999; text-align: center; text-transform: uppercase; margin: 8px 0 0; }
+
+    .inv-body { padding: 0 32px; }
+    .inv-rule { height: 0.5px; background: #c0c0c0; margin: 24px 0; }
+    .section-title { font-size: 20px; margin-bottom: 18px; }
+
+    .story-field { margin-bottom: 20px; }
+    .story-q { font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: #555; margin-bottom: 8px; font-style: italic; }
+    .story-text { font-family: 'Nanum Myeongjo', serif; font-size: 14px; color: #333; line-height: 1.9; }
+
+    .person-label { font-size: 9px; letter-spacing: 0.15em; color: #1a3a8f; text-transform: uppercase; margin: 14px 0 8px; }
+    .bullet-list { display: flex; flex-direction: column; gap: 6px; padding-left: 4px; }
+    .bullet-item { display: flex; align-items: flex-start; gap: 8px; font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: #333; line-height: 1.6; }
+    .bullet-dot { color: #1a3a8f; font-size: 16px; flex-shrink: 0; line-height: 1.4; }
+
+    .gallery-section { margin: 0; }
+    .gallery-slider {
+      position: relative;
+      background: #bbb;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .gallery-slide { position: absolute; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; }
+    .gallery-slide.active { display: flex; }
+    .gallery-slide img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-slide-lbl { font-size: 9px; letter-spacing: 0.2em; color: #888; text-transform: uppercase; }
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.75);
+      border: none;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      color: #1a1a1a;
+    }
+    .gallery-nav:hover { background: rgba(255,255,255,0.95); }
+    .gallery-prev { left: 12px; }
+    .gallery-next { right: 12px; }
+    .gallery-counter {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: #555;
+      background: rgba(255,255,255,0.65);
+      padding: 3px 10px;
+    }
+
+    .details-grid { display: flex; flex-direction: column; gap: 14px; }
+    .detail-row { display: flex; justify-content: space-between; align-items: flex-start; }
+    .detail-key { font-size: 9px; letter-spacing: 0.2em; color: #999; text-transform: uppercase; padding-top: 2px; min-width: 55px; }
+    .detail-val { font-size: 13px; color: #1a1a1a; text-align: right; line-height: 1.6; font-family: 'Nanum Myeongjo', serif; }
+    .detail-sub { font-size: 11px; color: #888; display: block; font-family: 'DM Sans', sans-serif; }
+
+    .contact-sub { font-size: 9px; letter-spacing: 0.15em; color: #aaa; text-transform: uppercase; margin: 0 0 14px; }
+    .phone-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .phone-row { display: flex; justify-content: space-between; align-items: center; }
+    .phone-label { font-size: 10px; letter-spacing: 0.1em; color: #999; text-transform: uppercase; }
+    .phone-val { font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: #1a1a1a; }
+
+    .accordion-item { border-bottom: 0.5px solid #c8c8c8; }
+    .accordion-btn {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 14px;
+      color: #1a1a1a;
+      text-align: left;
+    }
+    .accordion-btn:hover { color: #1a3a8f; }
+    .accordion-arrow { font-size: 10px; color: #999; transition: transform 0.2s; display: inline-block; }
+    .accordion-arrow.open { transform: rotate(180deg); }
+    .accordion-content { display: none; padding: 0 0 16px; }
+    .accordion-content.open { display: block; }
+    .account-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+    .account-key { color: #999; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .account-val { font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: #1a1a1a; text-align: right; }
+    .account-name { font-size: 11px; color: #888; display: block; }
+    .copy-btn {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      color: #1a3a8f;
+      text-transform: uppercase;
+      background: transparent;
+      border: 0.5px solid #1a3a8f;
+      padding: 5px 12px;
+      cursor: pointer;
+      margin-top: 6px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .copy-btn:hover { background: #1a3a8f; color: #fff; }
+    .copy-btn.copied { background: #1a3a8f; color: #fff; }
+
+    .rsvp-section { padding: 0 32px; }
+    .rsvp-title { font-size: 24px; margin-bottom: 8px; }
+    .rsvp-sub { font-size: 11px; color: #999; letter-spacing: 0.08em; line-height: 1.8; margin-bottom: 20px; font-family: 'Nanum Myeongjo', serif; }
+    .rsvp-btn {
+      display: inline-block;
+      border: 1px solid #1a3a8f;
+      background: transparent;
+      color: #1a3a8f;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 13px 40px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+    }
+    .rsvp-btn:hover { background: #1a3a8f; color: #fff; }
+
+    .inv-footer { margin-top: 36px; padding: 20px 32px 0; border-top: 0.5px solid #c0c0c0; text-align: center; }
+    .footer-names { font-family: 'Nanum Myeongjo', serif; font-size: 13px; color: #999; }
+  </style>
+</head>
+<body>
+<div class="inv">
+
+  <div class="inv-top">
+    <div class="inv-eyebrow pf">We're getting married!</div>
+  </div>
+
+  <!-- 대표 사진: src="photos/main.jpg" 로 교체하세요 -->
+  <div class="inv-photo-main">
+    <svg class="inv-photo-icon" width="32" height="28" viewBox="0 0 28 24" fill="none">
+      <rect x="1" y="4" width="26" height="18" rx="1.5" stroke="#888" stroke-width="1"/>
+      <circle cx="14" cy="13" r="4.5" stroke="#888" stroke-width="1"/>
+      <path d="M9 4 L10.5 1 H17.5 L19 4" stroke="#888" stroke-width="1" fill="none"/>
+    </svg>
+    <div class="inv-photo-lbl">대표 사진을 넣어주세요</div>
+  </div>
+
+  <div class="inv-names-block">
+    <div class="inv-names-kr">양지웅 &amp; 박수민</div>
+    <div class="inv-names-en">Yang Jiwoong · Park Soomin</div>
+    <div class="inv-date-sub">Saturday · March 20, 2027 · 오후 5시</div>
+  </div>
+
+  <div class="inv-body">
+    <div class="inv-rule"></div>
+    <div class="section-title pf">Our story</div>
+
+    <!-- 소개 섹션: 내용을 채워주세요 -->
+    <div class="story-field">
+      <div class="story-q">지웅 &amp; 수민 소개</div>
+      <div class="person-label">수민</div>
+      <div class="bullet-list">
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 한 줄 소개 ]</span></div>
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 특징 ]</span></div>
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 지웅에게 자주 하는 말 ]</span></div>
+      </div>
+      <div class="person-label">지웅</div>
+      <div class="bullet-list">
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 한 줄 소개 ]</span></div>
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 특징 ]</span></div>
+        <div class="bullet-item"><span class="bullet-dot">·</span><span>[ 수민에게 자주 하는 말 ]</span></div>
+      </div>
+    </div>
+
+    <div class="story-field">
+      <div class="story-q">우리는 어떻게 만났나요?</div>
+      <div class="story-text">[ 우리의 만남 이야기를 적어주세요 ]</div>
+    </div>
+
+    <div class="story-field">
+      <div class="story-q">서로의 어떤 점이 좋았나요?</div>
+      <div class="story-text">[ 서로의 매력을 적어주세요 ]</div>
+    </div>
+
+    <div class="story-field">
+      <div class="story-q">결혼을 결심하게 된 이유는?</div>
+      <div class="story-text">[ 결혼을 결심한 순간을 적어주세요 ]</div>
+    </div>
+
+    <div class="inv-rule"></div>
+    <div class="section-title pf">Gallery</div>
+  </div>
+
+  <!-- 갤러리: src="photos/1.jpg" 형식으로 사진을 교체하세요 -->
+  <div class="gallery-section">
+    <div class="gallery-slider">
+      <div class="gallery-slide active"><span class="gallery-slide-lbl">photo 1 — 사진을 넣어주세요</span></div>
+      <div class="gallery-slide"><span class="gallery-slide-lbl">photo 2</span></div>
+      <div class="gallery-slide"><span class="gallery-slide-lbl">photo 3</span></div>
+      <div class="gallery-slide"><span class="gallery-slide-lbl">photo 4</span></div>
+      <div class="gallery-slide"><span class="gallery-slide-lbl">photo 5</span></div>
+      <button class="gallery-nav gallery-prev" onclick="changeSlide(-1)">&#8592;</button>
+      <button class="gallery-nav gallery-next" onclick="changeSlide(1)">&#8594;</button>
+      <div class="gallery-counter" id="gallery-counter">1 / 5</div>
+    </div>
+  </div>
+
+  <div class="inv-body">
+    <div class="inv-rule"></div>
+    <div class="section-title pf">Details</div>
+    <div class="details-grid">
+      <div class="detail-row">
+        <span class="detail-key">Date</span>
+        <span class="detail-val">2027년 3월 20일 토요일<span class="detail-sub">오후 5시</span></span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-key">Venue</span>
+        <span class="detail-val">수원파티웨딩유<span class="detail-sub">경기 수원시 권선구 세화로 218</span></span>
+      </div>
+    </div>
+
+    <div class="inv-rule"></div>
+    <div class="section-title pf">Contact</div>
+
+    <div class="contact-sub">Phone</div>
+    <div class="phone-grid">
+      <div class="phone-row"><span class="phone-label">Jiwoong</span><span class="phone-val">[ 전화번호 ]</span></div>
+      <div class="phone-row"><span class="phone-label">Soomin</span><span class="phone-val">[ 전화번호 ]</span></div>
+    </div>
+
+    <div class="contact-sub">Account info</div>
+
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc1')"><span>신랑 양지웅</span><span class="accordion-arrow" id="arr-acc1">▼</span></button>
+      <div class="accordion-content" id="acc1">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc2')"><span>신부 박수민</span><span class="accordion-arrow" id="arr-acc2">▼</span></button>
+      <div class="accordion-content" id="acc2">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc3')"><span>신랑 아버지</span><span class="accordion-arrow" id="arr-acc3">▼</span></button>
+      <div class="accordion-content" id="acc3">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc4')"><span>신랑 어머니</span><span class="accordion-arrow" id="arr-acc4">▼</span></button>
+      <div class="accordion-content" id="acc4">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc5')"><span>신부 아버지</span><span class="accordion-arrow" id="arr-acc5">▼</span></button>
+      <div class="accordion-content" id="acc5">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button class="accordion-btn" onclick="toggleAcc('acc6')"><span>신부 어머니</span><span class="accordion-arrow" id="arr-acc6">▼</span></button>
+      <div class="accordion-content" id="acc6">
+        <div class="account-row"><span class="account-key">Bank</span><span class="account-val">[ 은행명 ]<span class="account-name">[ 계좌번호 ]</span></span></div>
+        <button class="copy-btn" onclick="copyAccount(this, '[ 계좌번호 ]')">Copy account number</button>
+      </div>
+    </div>
+
+    <div class="inv-rule"></div>
+  </div>
+
+  <div class="rsvp-section">
+    <div class="rsvp-title pf">RSVP</div>
+    <div class="rsvp-sub">Please let us know by March 1st<br>소중한 자리에 함께해 주세요</div>
+    <!-- href에 Google Form 링크를 넣어주세요 -->
+    <a class="rsvp-btn" href="#" target="_blank">참석 여부 알리기</a>
+  </div>
+
+  <div class="inv-footer">
+    <div class="footer-names">양지웅 · 박수민 · 2027</div>
+  </div>
+
+</div>
+
+<script>
+  var slideIdx = 0;
+  var slides = document.querySelectorAll('.gallery-slide');
+
+  function changeSlide(dir) {
+    slides[slideIdx].classList.remove('active');
+    slideIdx = (slideIdx + dir + slides.length) % slides.length;
+    slides[slideIdx].classList.add('active');
+    document.getElementById('gallery-counter').textContent = (slideIdx + 1) + ' / ' + slides.length;
+  }
+
+  function toggleAcc(id) {
+    var content = document.getElementById(id);
+    var arrow = document.getElementById('arr-' + id);
+    var isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  function copyAccount(btn, number) {
+    navigator.clipboard.writeText(number).then(function() {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function() {
+        btn.textContent = 'Copy account number';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
